@@ -1,0 +1,13 @@
+# devenv
+.devenv*
+devenv.local.nix
+.direnv
+.pre-commit-config.yaml
+.cargo
+.rust-src
+
+# rust
+/target
+
+# aoc
+/input
