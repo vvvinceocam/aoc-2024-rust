@@ -2,11 +2,12 @@ use std::collections::HashMap;
 
 use aoc_runner_derive::{aoc, aoc_generator};
 
+use crate::utils::Sorted as _;
+
 #[aoc_generator(day1)]
 pub fn input_generator(input: &str) -> (Vec<u64>, Vec<u64>) {
-    let hint = input.len() / 7;
-    let mut xs = Vec::with_capacity(hint);
-    let mut ys = Vec::with_capacity(hint);
+    let mut xs = Vec::new();
+    let mut ys = Vec::new();
 
     let mut numbers = input
         .split_ascii_whitespace()
@@ -22,21 +23,17 @@ pub fn input_generator(input: &str) -> (Vec<u64>, Vec<u64>) {
 
 #[aoc(day1, part1)]
 pub fn solve_part1((xs, ys): &(Vec<u64>, Vec<u64>)) -> u64 {
-    let mut xs = xs.clone();
-    let mut ys = ys.clone();
-
-    xs.sort_unstable();
-    ys.sort_unstable();
-
-    xs.iter().zip(ys.iter()).map(|(x, y)| x.abs_diff(*y)).sum()
+    xs.sorted_unstable()
+        .iter()
+        .zip(&ys.sorted_unstable())
+        .map(|(x, y)| x.abs_diff(*y))
+        .sum()
 }
 
 #[aoc(day1, part2)]
 pub fn solve_part2((xs, ys): &(Vec<u64>, Vec<u64>)) -> u64 {
-    let mut ys = ys.clone();
-    ys.sort_unstable();
-
     let factors = ys
+        .sorted_unstable()
         .chunk_by(|a, b| a == b)
         .map(|chunk| (chunk[0], chunk.len() as u64))
         .collect::<HashMap<_, _>>();
