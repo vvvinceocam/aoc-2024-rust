@@ -2,23 +2,11 @@ use std::collections::HashMap;
 
 use aoc_runner_derive::{aoc, aoc_generator};
 
-use crate::utils::Sorted as _;
+use crate::utils::{Fancy, Sorted, SpaceSeperated};
 
 #[aoc_generator(day1)]
 pub fn input_generator(input: &str) -> (Vec<u64>, Vec<u64>) {
-    let mut xs = Vec::new();
-    let mut ys = Vec::new();
-
-    let mut numbers = input
-        .split_ascii_whitespace()
-        .map(|n| n.parse::<u64>().unwrap());
-
-    while let (Some(x), Some(y)) = (numbers.next(), numbers.next()) {
-        xs.push(x);
-        ys.push(y);
-    }
-
-    (xs, ys)
+    input.space_seperated().collect::<Fancy<_>>().reveal()
 }
 
 #[aoc(day1, part1)]
@@ -45,13 +33,7 @@ pub fn solve_part2((xs, ys): &(Vec<u64>, Vec<u64>)) -> u64 {
 mod tests {
     use super::{input_generator, solve_part1, solve_part2};
 
-    static INPUT1: &str = "\
-3   4
-4   3
-2   5
-1   3
-3   9
-3   3";
+    const INPUT1: &str = include_str!("../input/2024/day1_example1.txt");
 
     #[test]
     fn solver_part1_match_example() {
